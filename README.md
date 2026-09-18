@@ -50,6 +50,33 @@
 | 미제출·마감 | 미제출 과제와 일정 기간 안에 마감되는 과제 조회 |
 | AI 연동 | Codex 플러그인, Claude Desktop, Claude Code용 로컬 MCP |
 
+## 실제 동작 미리보기
+
+아래 썸네일을 누르면 YouTube에서 실제 시연 영상이 재생됩니다.
+
+<table>
+  <tr>
+    <th width="50%">Codex 시연</th>
+    <th width="50%">Claude 시연</th>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="https://www.youtube.com/watch?v=0DFVmfkOvx4&autoplay=1">
+        <img src="https://img.youtube.com/vi/0DFVmfkOvx4/hqdefault.jpg" width="100%" alt="Codex에서 서울과기대 LMS 커넥터를 사용하는 시연 영상">
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://www.youtube.com/watch?v=r97yNbs5nV0&autoplay=1">
+        <img src="https://img.youtube.com/vi/r97yNbs5nV0/hqdefault.jpg" width="100%" alt="Claude에서 서울과기대 LMS 커넥터를 사용하는 시연 영상">
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://www.youtube.com/watch?v=0DFVmfkOvx4&autoplay=1"><strong>▶ Codex 시연 영상 보기</strong></a></td>
+    <td align="center"><a href="https://www.youtube.com/watch?v=r97yNbs5nV0&autoplay=1"><strong>▶ Claude 시연 영상 보기</strong></a></td>
+  </tr>
+</table>
+
 ## 다른 도구와 연결하면
 
 이 커넥터는 LMS 데이터를 **읽어서 AI에 전달하는 역할만** 합니다. AI의 예약 실행 기능이나 Google Calendar·Outlook 같은 별도 도구를 함께 연결하면 다음처럼 확장할 수 있습니다.
