@@ -19,6 +19,10 @@
 </p>
 
 <p align="center">
+  📁 <strong>Google Drive가 편하신 분은 <a href="https://drive.google.com/drive/folders/1komzUEuiQ4qwXOIUtkAzj2eYIRSo2USp?usp=drive_link">여기서 다운로드하세요!</a></strong>
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?logo=windows11&logoColor=white" alt="Windows 10 또는 11">
   <img src="https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white" alt="Python 3.12">
   <img src="https://img.shields.io/badge/MCP-Local-6E56CF" alt="Local MCP">
