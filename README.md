@@ -2,7 +2,7 @@
   <img src="plugin/seoultech-c4t/assets/icon.png" width="112" alt="SeoulTech LMS Connector 로고">
 </p>
 
-<h1 align="center">서울과기대 LMS e-Class 커넥터</h1>
+<h1 align="center">서울과기대 LMS e-Class 커넥터 - win64</h1>
 
 <p align="center">
   <strong>수업 공지와 과제를 일일이 찾지 말고, AI에게 물어보세요.</strong><br>
