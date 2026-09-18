@@ -30,7 +30,7 @@
   <img src="https://img.shields.io/badge/License-MIT-yellow" alt="MIT License">
 </p>
 
-> [!확인 부탁드립니다]
+> [!IMPORTANT]
 > 서울과학기술대학교 또는 e-Class 운영사가 제작·승인·지원하는 공식 프로그램이 아닌 독립적인 커뮤니티 프로젝트입니다. AI 요약과 파싱 결과에는 오류가 생길 수 있으므로 시험, 과제, 출석, 제출 여부와 마감 시각은 반드시 e-Class 원문에서 최종 확인하세요. 자세한 내용은 [DISCLAIMER.md](DISCLAIMER.md)를 확인하세요.
 
 ## 무엇을 할 수 있나요?
