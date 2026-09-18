@@ -101,7 +101,18 @@
 <p align="center">
   <img src="docs/media/install/00-cover.png" width="720" alt="서울과기대 LMS 커넥터 1분 설치 가이드">
 </p>
+<details>
+<summary><strong>사진으로 설치 과정 전체 보기</strong></summary>
 
+<br>
+
+<p align="center"><img src="docs/media/install/01-releases.png" width="720" alt="1단계 GitHub Releases 클릭"></p>
+<p align="center"><img src="docs/media/install/02-download-zip.png" width="720" alt="2단계 설치 ZIP 다운로드"></p>
+<p align="center"><img src="docs/media/install/03-extract.png" width="720" alt="3단계 ZIP 압축 풀기"></p>
+<p align="center"><img src="docs/media/install/04-open-terminal.png" width="720" alt="4단계 압축을 푼 폴더에서 터미널 열기"></p>
+<p align="center"><img src="docs/media/install/05-run-install.png" width="720" alt="5단계 설치 명령어 실행"></p>
+
+</details>
 ### 설치 순서
 
 1. [최신 Release](https://github.com/Shine-musC4T/seoultech-lms-connector/releases/latest)의 **Assets**에서 `seoultech-lms-connector-버전.zip`을 다운로드합니다. `Source code`가 아닌 별도로 첨부된 설치용 ZIP을 선택하세요.
@@ -116,18 +127,7 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1
 5. 설치 중 Chrome이 열리면 서울과기대 e-Class에 직접 로그인합니다.
 6. 설치가 끝나면 Codex 또는 Claude를 완전히 종료한 뒤 다시 실행합니다.
 
-<details>
-<summary><strong>사진으로 설치 과정 전체 보기</strong></summary>
 
-<br>
-
-<p align="center"><img src="docs/media/install/01-releases.png" width="720" alt="1단계 GitHub Releases 클릭"></p>
-<p align="center"><img src="docs/media/install/02-download-zip.png" width="720" alt="2단계 설치 ZIP 다운로드"></p>
-<p align="center"><img src="docs/media/install/03-extract.png" width="720" alt="3단계 ZIP 압축 풀기"></p>
-<p align="center"><img src="docs/media/install/04-open-terminal.png" width="720" alt="4단계 압축을 푼 폴더에서 터미널 열기"></p>
-<p align="center"><img src="docs/media/install/05-run-install.png" width="720" alt="5단계 설치 명령어 실행"></p>
-
-</details>
 
 설치 명령은 Python 패키지와 의존성을 설치하고, 현재 PC의 Python 경로를 사용해 Codex·Claude 연동을 준비한 뒤 최초 LMS 로그인을 진행합니다. 비밀번호를 스크립트나 터미널에 입력하지 않으며, 사용자가 공식 로그인 페이지에서 직접 로그인합니다.
 
