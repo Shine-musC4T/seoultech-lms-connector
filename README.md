@@ -2,28 +2,29 @@
   <img src="plugin/seoultech-c4t/assets/icon.png" width="112" alt="SeoulTech LMS Connector 로고">
 </p>
 
-<h1 align="center">서울과기대 LMS e-Class 커넥터 - win64</h1>
+<h1 align="center">서울과기대 LMS e-Class 커넥터</h1>
 
 <p align="center">
   <strong>수업 공지와 과제를 일일이 찾지 말고, AI에게 물어보세요.</strong><br>
   서울과학기술대학교 e-Class의 공지·과제·마감일을 Codex와 Claude가 읽을 수 있게 연결하는<br>
-  Windows용 읽기 전용 로컬 MCP 커넥터입니다.
+  Windows와 macOS에서 사용할 수 있는 읽기 전용 로컬 MCP 커넥터입니다.
 </p>
 
 <p align="center">
-  <a href="https://github.com/Shine-musC4T/seoultech-lms-connector/releases/latest"><strong>최신 버전 다운로드</strong></a>
+  <a href="#windows-설치"><strong>🪟 Windows 설치</strong></a>
   ·
-  <a href="#1분-설치-가이드"><strong>설치 가이드</strong></a>
+  <a href="#macos-설치"><strong>🍎 macOS 설치</strong></a>
   ·
   <a href="#설치-확인"><strong>설치 확인</strong></a>
 </p>
 
 <p align="center">
-  📁 <strong>Google Drive가 편하신 분은 <a href="https://drive.google.com/drive/folders/1komzUEuiQ4qwXOIUtkAzj2eYIRSo2USp?usp=drive_link">여기서 다운로드하세요!</a></strong>
+  📁 <strong>Windows용 파일은 <a href="https://drive.google.com/drive/folders/1komzUEuiQ4qwXOIUtkAzj2eYIRSo2USp?usp=drive_link">Google Drive에서도 다운로드</a>할 수 있습니다.</strong>
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?logo=windows11&logoColor=white" alt="Windows 10 또는 11">
+  <img src="https://img.shields.io/badge/macOS-Apple%20Silicon%20%7C%20Intel-000000?logo=apple&logoColor=white" alt="macOS Apple Silicon 또는 Intel">
   <img src="https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white" alt="Python 3.12">
   <img src="https://img.shields.io/badge/MCP-Local-6E56CF" alt="Local MCP">
   <img src="https://img.shields.io/badge/LMS-Read%20Only-19A974" alt="LMS read only">
@@ -94,13 +95,24 @@
 
 > 캘린더 등록이나 예약 실행 기능이 이 저장소에 내장된 것은 아닙니다. 사용 중인 AI에 해당 도구가 별도로 연결되어 있어야 합니다.
 
-## 1분 설치 가이드
+## 운영체제별 설치
 
-### 준비물
+아래에서 사용 중인 운영체제를 선택하면 해당 설치 방법으로 바로 이동합니다.
+
+<p align="center">
+  <a href="#windows-설치"><strong>🪟 Windows 설치 방법 보기</strong></a>
+  &nbsp;&nbsp;|&nbsp;&nbsp;
+  <a href="#macos-설치"><strong>🍎 macOS 설치 방법 보기</strong></a>
+</p>
+
+두 운영체제 모두 [Python 3.12](https://www.python.org/downloads/)와 Codex, Claude Desktop 또는 Claude Code 중 사용할 프로그램이 필요합니다.
+
+## Windows 설치
+
+### Windows 준비물
 
 - Windows 10 또는 Windows 11
-- [Python 3.12](https://www.python.org/downloads/) — 설치할 때 `Add Python to PATH`를 선택하는 것을 권장합니다.
-- Codex, Claude Desktop 또는 Claude Code 중 사용할 프로그램
+- Python 3.12 — 설치할 때 `Add Python to PATH`를 선택하는 것을 권장합니다.
 
 <p align="center">
   <img src="docs/media/install/00-cover.png" width="720" alt="서울과기대 LMS 커넥터 1분 설치 가이드">
@@ -117,9 +129,9 @@
 <p align="center"><img src="docs/media/install/05-run-install.png" width="720" alt="5단계 설치 명령어 실행"></p>
 
 </details>
-### 설치 순서
+### Windows 설치 순서
 
-1. [최신 Release](https://github.com/Shine-musC4T/seoultech-lms-connector/releases/latest)의 **Assets**에서 `seoultech-lms-connector-버전.zip`을 다운로드합니다. `Source code`가 아닌 별도로 첨부된 설치용 ZIP을 선택하세요.
+1. [최신 Release](https://github.com/Shine-musC4T/seoultech-lms-connector/releases/latest)의 **Assets**에서 `seoultech-lms-connector-v0.3.1.zip`을 다운로드합니다. `Source code`가 아닌 별도로 첨부된 Windows 설치용 ZIP을 선택하세요.
 2. ZIP 파일의 압축을 풉니다.
 3. **압축을 푼 폴더**를 우클릭하고 **터미널에서 열기**를 누릅니다.
 4. 아래 명령어를 그대로 입력하고 Enter를 누릅니다.
@@ -137,6 +149,43 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1
 
 > [!NOTE]
 > Claude Desktop에서 로고와 설명이 표시되는 확장을 사용하려면 설치 스크립트가 안내한 `.mcpb` 파일을 `설정 > 확장 프로그램 > 고급 설정 > 확장 프로그램 설치`에서 직접 선택하고 승인하세요. 기본 MCP 연결은 확장 설치 전에도 유지됩니다.
+
+## macOS 설치
+
+### macOS 준비물
+
+- macOS가 설치된 Apple Silicon 또는 Intel Mac
+- Python 3.12
+
+Python 3.12가 없다면 [Python 공식 macOS 다운로드 페이지](https://www.python.org/downloads/macos/)에서 설치할 수 있습니다. Homebrew를 사용 중이라면 다음 명령을 실행해도 됩니다.
+
+```bash
+brew install python@3.12
+```
+
+### macOS 설치 순서
+
+1. [최신 Release](https://github.com/Shine-musC4T/seoultech-lms-connector/releases/latest)의 **Assets**에서 `seoultech-lms-connector-macos-v0.3.1.zip`을 다운로드합니다. GitHub가 자동으로 만드는 `Source code` 파일이 아니라 이름에 `macos`가 들어간 설치용 ZIP을 선택하세요.
+2. ZIP 파일을 더블클릭해 압축을 풉니다.
+3. `응용 프로그램 > 유틸리티 > 터미널`을 엽니다.
+4. 터미널에 `cd `를 입력하되 Enter는 아직 누르지 않습니다.
+5. 압축을 푼 `seoultech-lms-connector-macos-v0.3.1` 폴더를 터미널 창으로 끌어다 놓고 Enter를 누릅니다.
+6. 아래 명령을 실행합니다.
+
+```bash
+bash install.sh
+```
+
+7. 설치 중 브라우저가 열리면 서울과기대 e-Class에 직접 로그인합니다.
+8. 설치가 끝나면 Codex 또는 Claude를 완전히 종료한 뒤 다시 실행합니다.
+
+> [!TIP]
+> ZIP의 실행 권한이 유지된 환경에서는 `install.command`를 더블클릭해도 됩니다. macOS가 실행을 막거나 창이 바로 닫히면 터미널에서 `bash install.sh`를 실행하는 방법이 가장 확실합니다.
+
+macOS 설치 스크립트는 전용 가상환경을 `~/Library/Application Support/seoultech-lms-connector/venv`에 만들고 Codex·Claude 연동과 최초 로그인을 준비합니다. 더 자세한 macOS 설명과 원본 소스는 [`macos/README.md`](macos/README.md)와 [`macos/`](macos/)에서 확인할 수 있습니다.
+
+> [!NOTE]
+> Claude Desktop용 선택적 `.mcpb` 확장은 설치 후 `~/Library/Application Support/seoultech-lms-connector/seoultech-c4t.mcpb`에 생성됩니다. 기본 MCP 연결은 확장 설치 전에도 유지됩니다.
 
 ## 설치 확인
 
@@ -182,14 +231,15 @@ Claude Desktop 또는 Claude Code에서는 자연어로 요청하세요.
 
 | 환경 | 지원 여부 | 비고 |
 | --- | :---: | --- |
-| Windows 10/11 | ✅ | 현재 공식 지원 환경 |
+| Windows 10/11 | ✅ | Windows 전용 설치 스크립트 제공 |
+| macOS Apple Silicon | ✅ | macOS 전용 설치 스크립트 제공 |
+| macOS Intel | ✅ | macOS 전용 설치 스크립트 제공 |
 | Codex | ✅ | 로컬 플러그인으로 등록 |
 | ChatGPT 데스크톱 Work | ✅ | 로컬 도구 실행이 가능한 환경에서 사용 |
 | 일반 Chat 모드 | ❌ | 로컬 컴퓨터의 MCP 명령을 실행할 수 없음 |
 | Claude Desktop | ✅ | 로컬 MCP 연결 및 선택적 `.mcpb` 확장 |
 | Claude Code | ✅ | 사용자 범위 MCP로 등록 |
 | 웹·모바일 단독 환경 | ❌ | 로컬 프로세스에 접근할 수 없음 |
-| macOS | ⚠️ | 핵심 Python 코드는 이식 가능하지만 설치·연동 미지원 및 미검증 |
 
 > [!NOTE]
 > 현재 **로컬 커넥터**만 제공합니다. 원격 서버에 배포하면 웹·모바일 연동도 기술적으로 가능하지만, 로그인 세션과 학사정보를 외부 서버에서 처리해야 하는 보안·개인정보 문제가 있어 구현하지 않았습니다.
@@ -200,7 +250,7 @@ Claude Desktop 또는 Claude Code에서는 자연어로 요청하세요.
 - 조사로 확인된 조회용 endpoint만 allowlist로 허용하며, 그 밖의 요청은 네트워크 전송 전에 차단합니다.
 - 공지 상세 열람으로 LMS의 읽음 상태나 조회수가 변경될 수 있습니다.
 - 학교 아이디와 비밀번호를 코드, 저장소 또는 `.env`에 저장하지 않습니다.
-- 로그인 세션은 사용자 PC의 `%LOCALAPPDATA%\seoultech-lms-connector\auth_state.json`에만 저장됩니다.
+- 로그인 세션은 Windows에서 `%LOCALAPPDATA%\seoultech-lms-connector\auth_state.json`, macOS에서 `~/Library/Application Support/seoultech-lms-connector/auth_state.json`에만 저장됩니다.
 - `auth_state.json`은 민감한 파일이므로 다른 사람에게 전달하거나 GitHub에 올리면 안 됩니다.
 
 취약점이나 버그를 제보할 때는 [SECURITY.md](SECURITY.md)의 민감정보 처리 방법을 확인하세요.
@@ -209,24 +259,42 @@ Claude Desktop 또는 Claude Code에서는 자연어로 요청하세요.
 
 조회 중 세션 만료가 감지되면 AI가 `start_login` 도구를 호출해 로그인용 Chrome 창을 열 수 있습니다. 사용자가 직접 로그인하면 세션이 로컬에 저장되고 창이 자동으로 닫힙니다. 그 뒤 같은 대화에서 원래 요청을 다시 실행하면 됩니다.
 
-터미널에서 직접 갱신하려면:
+Windows 터미널에서 직접 갱신하려면:
 
 ```powershell
 seoultech-lms login
 ```
 
+macOS 터미널에서 직접 갱신하려면:
+
+```bash
+"$HOME/Library/Application Support/seoultech-lms-connector/venv/bin/seoultech-lms" login
+```
+
 ## 제거
 
-Codex 플러그인, Claude MCP 설정과 Python 패키지를 제거하려면 압축을 풀었던 배포 폴더에서 실행합니다.
+Codex 플러그인, Claude MCP 설정과 Python 패키지를 제거하려면 압축을 풀었던 배포 폴더에서 운영체제에 맞는 명령을 실행합니다.
+
+Windows:
 
 ```powershell
 .\uninstall.ps1
 ```
 
-로그인 세션까지 함께 삭제하려면:
-
 ```powershell
 .\uninstall.ps1 -RemoveAuth
+```
+
+macOS:
+
+```bash
+bash uninstall.sh
+```
+
+로그인 세션까지 함께 삭제하려면:
+
+```bash
+bash uninstall.sh --remove-auth
 ```
 
 Claude Desktop의 `.mcpb` 확장은 Claude의 `설정 > 확장 프로그램`에서 `seoultech_c4t`를 선택해 별도로 제거합니다.
@@ -258,10 +326,20 @@ seoultech-lms pending --json
 
 특정 연동이나 최초 로그인을 생략할 때만 사용합니다.
 
+Windows:
+
 ```powershell
 .\install.ps1 -SkipCodex
 .\install.ps1 -SkipClaude
 .\install.ps1 -SkipLogin
+```
+
+macOS:
+
+```bash
+bash install.sh --skip-codex
+bash install.sh --skip-claude
+bash install.sh --skip-login
 ```
 
 개발용 설치:

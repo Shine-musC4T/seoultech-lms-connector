@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "seoultech_c4t": {
+      "command": "python",
+      "args": ["-m", "seoultech_lms.mcp_server"],
+      "enabled": true,
+      "omit_tools_from": ["code_mode"],
+      "startup_timeout_sec": 30,
+      "tool_timeout_sec": 180,
+      "env_vars": ["HOME", "PATH", "XDG_DATA_HOME"]
+    }
+  }
+}
