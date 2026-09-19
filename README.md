@@ -131,7 +131,7 @@
 </details>
 ### Windows 설치 순서
 
-1. [최신 Release](https://github.com/Shine-musC4T/seoultech-lms-connector/releases/latest)의 **Assets**에서 `seoultech-lms-connector-v0.3.1.zip`을 다운로드합니다. `Source code`가 아닌 별도로 첨부된 Windows 설치용 ZIP을 선택하세요.
+1. [최신 Release](https://github.com/Shine-musC4T/seoultech-lms-connector/releases/latest)의 **Assets**에서 `seoultech-lms-connector-windows-v0.3.1.zip`을 다운로드합니다. `Source code`가 아닌 이름에 `windows`가 들어간 설치용 ZIP을 선택하세요.
 2. ZIP 파일의 압축을 풉니다.
 3. **압축을 푼 폴더**를 우클릭하고 **터미널에서 열기**를 누릅니다.
 4. 아래 명령어를 그대로 입력하고 Enter를 누릅니다.
