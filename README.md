@@ -61,24 +61,24 @@
 
 <table>
   <tr>
-    <th width="50%">Claude 시연</th>
     <th width="50%">Codex 시연</th>
+    <th width="50%">Claude 시연</th>
   </tr>
   <tr>
+    <td align="center">
+      <a href="https://www.youtube.com/watch?v=kSCxUyKlEtY&autoplay=1">
+        <img src="https://img.youtube.com/vi/kSCxUyKlEtY/hqdefault.jpg" width="100%" alt="Codex에서 서울과기대 LMS 커넥터를 사용하는 시연 영상">
+      </a>
+    </td>
     <td align="center">
       <a href="https://www.youtube.com/watch?v=r97yNbs5nV0&autoplay=1">
         <img src="https://img.youtube.com/vi/r97yNbs5nV0/hqdefault.jpg" width="100%" alt="Claude에서 서울과기대 LMS 커넥터를 사용하는 시연 영상">
       </a>
     </td>
-    <td align="center">
-      <a href="https://www.youtube.com/watch?v=0DFVmfkOvx4&autoplay=1">
-        <img src="https://img.youtube.com/vi/0DFVmfkOvx4/hqdefault.jpg" width="100%" alt="Codex에서 서울과기대 LMS 커넥터를 사용하는 시연 영상">
-      </a>
-    </td>
   </tr>
   <tr>
+    <td align="center"><a href="https://www.youtube.com/watch?v=kSCxUyKlEtY&autoplay=1"><strong>▶ Codex 시연 영상 보기</strong></a></td>
     <td align="center"><a href="https://www.youtube.com/watch?v=r97yNbs5nV0&autoplay=1"><strong>▶ Claude 시연 영상 보기</strong></a></td>
-    <td align="center"><a href="https://www.youtube.com/watch?v=0DFVmfkOvx4&autoplay=1"><strong>▶ Codex 시연 영상 보기</strong></a></td>
   </tr>
 </table>
 
