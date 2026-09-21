@@ -1,6 +1,6 @@
 {
   "name": "seoultech-c4t",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Read-only access to SeoulTech LMS notices, assignments, and deadlines.",
   "author": {
     "name": "C4T"

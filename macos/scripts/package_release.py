@@ -12,15 +12,19 @@ EXECUTABLE_NAMES = {
     "install.command",
     "uninstall.command",
 }
-EXCLUDED_PARTS = {"__pycache__", ".pytest_cache", ".DS_Store"}
+EXCLUDED_PARTS = {"__pycache__", ".pytest_cache", ".DS_Store", ".venv", "build", "dist"}
 EXCLUDED_SUFFIXES = {".pyc", ".pyo"}
-ZIP_TIMESTAMP = (2026, 9, 19, 0, 0, 0)
+ZIP_TIMESTAMP = (2026, 9, 21, 0, 0, 0)
 
 
 def _is_excluded(path: Path) -> bool:
     if len(path.parts) >= 2 and path.parts[:2] == ("docs", "media"):
         return True
-    return bool(EXCLUDED_PARTS.intersection(path.parts)) or path.suffix in EXCLUDED_SUFFIXES
+    return (
+        bool(EXCLUDED_PARTS.intersection(path.parts))
+        or any(part.endswith(".egg-info") for part in path.parts)
+        or path.suffix in EXCLUDED_SUFFIXES
+    )
 
 
 def _zip_info(archive_name: str, *, directory: bool, executable: bool = False) -> zipfile.ZipInfo:

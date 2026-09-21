@@ -77,6 +77,7 @@ EOF
 fi
 
 mkdir -p "$APP_SUPPORT_DIR"
+chmod 700 "$APP_SUPPORT_DIR"
 
 printf '[1/7] macOS 전용 Python 가상환경을 준비합니다.\n'
 "$PYTHON_EXE" -m venv "$VENV_DIR"
@@ -84,12 +85,8 @@ VENV_PYTHON="$VENV_DIR/bin/python3"
 "$VENV_PYTHON" -m pip install --disable-pip-version-check --upgrade pip setuptools
 "$VENV_PYTHON" -m pip install --disable-pip-version-check --upgrade "$PROJECT_ROOT"
 
-if [[ ! -d "/Applications/Google Chrome.app" && ! -d "$HOME/Applications/Google Chrome.app" ]]; then
-    printf '[2/7] Chrome이 없어 로그인용 Chromium을 설치합니다.\n'
-    "$VENV_PYTHON" -m playwright install chromium
-else
-    printf '[2/7] 설치된 Google Chrome을 사용합니다.\n'
-fi
+printf '[2/7] 로그인 및 세션 점검용 Playwright Chromium을 준비합니다.\n'
+"$VENV_PYTHON" -m playwright install chromium
 
 setup_args=(
     "$SETUP_SCRIPT" install
@@ -138,16 +135,36 @@ else
     printf '      다음 파일을 선택하세요: %s\n' "$claude_bundle"
 
     if command -v claude >/dev/null 2>&1; then
+        claude_user_config="$HOME/.claude.json"
+        claude_config_backup=""
+        if [[ -f "$claude_user_config" ]]; then
+            claude_config_backup="$(mktemp "$APP_SUPPORT_DIR/.claude-json-backup.XXXXXX")"
+            cp -p "$claude_user_config" "$claude_config_backup"
+            chmod 600 "$claude_config_backup"
+        fi
         claude mcp remove seoultech_c4t --scope user >/dev/null 2>&1 || true
         claude_server_json="$("$VENV_PYTHON" -c 'import json,sys; print(json.dumps({"type":"stdio","command":sys.argv[1],"args":["-m","seoultech_lms.mcp_server"],"env":{}}))' "$VENV_PYTHON")"
-        claude mcp add-json seoultech_c4t "$claude_server_json" --scope user
-        printf '[6/7] Claude Code MCP 서버를 등록했습니다.\n'
+        if claude mcp add-json seoultech_c4t "$claude_server_json" --scope user; then
+            [[ -z "$claude_config_backup" ]] || rm -f "$claude_config_backup"
+            printf '[6/7] Claude Code MCP 서버를 등록했습니다.\n'
+        else
+            if [[ -n "$claude_config_backup" ]]; then
+                cp -p "$claude_config_backup" "$claude_user_config"
+                rm -f "$claude_config_backup"
+            else
+                claude mcp remove seoultech_c4t --scope user >/dev/null 2>&1 || true
+            fi
+            printf '[6/7] Claude Code 등록에 실패해 기존 사용자 설정을 복원했습니다. Claude Desktop 연결은 유지됩니다.\n' >&2
+        fi
     else
         printf '[6/7] Claude Code가 없어 CLI 등록만 건너뜁니다. Claude Desktop 연결은 준비됐습니다.\n'
     fi
 fi
 
 AUTH_PATH="$APP_SUPPORT_DIR/auth_state.json"
+if [[ -f "$AUTH_PATH" ]]; then
+    chmod 600 "$AUTH_PATH"
+fi
 if ((SKIP_LOGIN)); then
     printf '[7/7] LMS 로그인을 건너뜁니다. 나중에 아래 명령으로 로그인하세요.\n'
     printf '      "%s" -m seoultech_lms.cli login\n' "$VENV_PYTHON"

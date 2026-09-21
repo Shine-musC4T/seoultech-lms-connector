@@ -10,7 +10,7 @@ from .auth import AuthenticationRequired, auth_state_path
 from .browser import interactive_login
 from .client import ReadOnlyViolation, SeoultechLMSClient
 from .models import Assignment, Course, Notice, as_jsonable
-from .service import pending_assignments
+from .service import pending_assignments, upcoming_deadlines
 
 
 def _build_parser() -> argparse.ArgumentParser:
@@ -27,10 +27,13 @@ def _build_parser() -> argparse.ArgumentParser:
         ("notices", "공지 목록 조회"),
         ("assignments", "과제 목록 조회"),
         ("pending", "미제출 과제 조회"),
+        ("deadlines", "지정한 기간 안에 마감되는 미제출 과제 조회"),
     ):
         command = subparsers.add_parser(name, help=help_text)
         if name != "courses":
             command.add_argument("--course-id")
+        if name == "deadlines":
+            command.add_argument("--days", type=int, default=7)
         command.add_argument("--json", action="store_true")
     return parser
 
@@ -43,9 +46,13 @@ async def _query(args: argparse.Namespace) -> list[Course] | list[Notice] | list
             return await client.get_notices(args.course_id)
         assignments = await client.get_assignments(
             args.course_id,
-            include_completed=args.command != "pending",
+            include_completed=args.command not in ("pending", "deadlines"),
         )
-        return pending_assignments(assignments) if args.command == "pending" else assignments
+        if args.command == "pending":
+            return pending_assignments(assignments)
+        if args.command == "deadlines":
+            return upcoming_deadlines(assignments, days=args.days)
+        return assignments
 
 
 async def _doctor() -> int:

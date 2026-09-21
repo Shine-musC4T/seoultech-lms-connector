@@ -54,13 +54,13 @@ brew install python@3.12
 
 ### 2. 배포 ZIP 압축 풀기
 
-`seoultech-lms-connector-macos-v0.3.1.zip`을 더블클릭해 압축을 풉니다. `Source code` ZIP이 아니라 이름에 `macos`가 들어간 설치용 ZIP을 사용하세요.
+`seoultech-lms-connector-macos-v0.3.2.zip`을 더블클릭해 압축을 풉니다. `Source code` ZIP이 아니라 이름에 `macos`가 들어간 설치용 ZIP을 사용하세요.
 
 ### 3. Terminal에서 설치
 
 1. `응용 프로그램 > 유틸리티 > 터미널`을 엽니다.
 2. 터미널에 `cd `를 입력하되 Enter는 아직 누르지 않습니다.
-3. 압축을 푼 `seoultech-lms-connector-macos-v0.3.1` 폴더를 터미널 창으로 끌어다 놓습니다.
+3. 압축을 푼 `seoultech-lms-connector-macos-v0.3.2` 폴더를 터미널 창으로 끌어다 놓습니다.
 4. Enter를 누릅니다.
 5. 아래 명령을 입력합니다.
 
@@ -72,7 +72,7 @@ bash install.sh
 
 - `~/Library/Application Support/seoultech-lms-connector/venv`에 전용 Python 환경 생성
 - 필요한 Python 패키지 설치
-- Chrome이 없으면 Playwright Chromium 설치
+- 로그인과 세션 점검에 필요한 Playwright Chromium 설치
 - Codex 개인 플러그인과 마켓플레이스 구성
 - Claude Desktop 기본 로컬 MCP 구성
 - Claude Code가 설치돼 있으면 사용자 범위 MCP 등록
@@ -136,6 +136,7 @@ Claude Desktop 또는 Claude Code에서는 이름을 붙이지 않고 자연어�
 - Codex 개인 마켓플레이스: `~/.agents/plugins/marketplace.json`
 
 `auth_state.json`에는 로그인 세션 정보가 들어 있으므로 다른 사람에게 보내거나 GitHub에 올리면 안 됩니다.
+설치 프로그램은 이 폴더를 사용자만 접근 가능한 권한으로 만들고, 세션 파일을 macOS에서 `600` 권한으로 저장합니다.
 
 ## 로그인 세션 갱신
 
@@ -149,6 +150,12 @@ AI가 세션 만료를 알리면 `start_login` 도구로 로그인 창을 열 �
 
 ```bash
 "$HOME/Library/Application Support/seoultech-lms-connector/venv/bin/seoultech-lms" doctor
+```
+
+터미널에서 7일 안에 마감되는 미제출 과제를 직접 확인하려면:
+
+```bash
+"$HOME/Library/Application Support/seoultech-lms-connector/venv/bin/seoultech-lms" deadlines --days 7
 ```
 
 ## 제거
@@ -219,7 +226,7 @@ python -m unittest discover -s tests -v
 ```bash
 python scripts/package_release.py \
   --source . \
-  --output ../seoultech-lms-connector-macos-v0.3.1.zip
+  --output ../seoultech-lms-connector-macos-v0.3.2.zip
 ```
 
 ## 라이선스 및 책임

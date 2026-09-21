@@ -23,7 +23,7 @@ class BuildMcpbTests(unittest.TestCase):
                 project_root,
                 output,
                 python_executable,
-                "0.3.1",
+                "0.3.2",
             )
             with zipfile.ZipFile(output) as bundle:
                 self.assertEqual(
@@ -32,7 +32,7 @@ class BuildMcpbTests(unittest.TestCase):
                 )
                 manifest = json.loads(bundle.read("manifest.json"))
                 self.assertEqual(manifest["manifest_version"], "0.3")
-                self.assertEqual(manifest["version"], "0.3.1")
+                self.assertEqual(manifest["version"], "0.3.2")
                 self.assertEqual(manifest["icon"], "icon.png")
                 self.assertEqual(manifest["icons"][0]["size"], "512x512")
                 self.assertEqual(
@@ -42,6 +42,7 @@ class BuildMcpbTests(unittest.TestCase):
                 self.assertEqual(
                     manifest["compatibility"]["platforms"], ["darwin"]
                 )
+                self.assertNotIn("runtimes", manifest["compatibility"])
                 self.assertEqual(len(manifest["tools"]), 7)
 
 

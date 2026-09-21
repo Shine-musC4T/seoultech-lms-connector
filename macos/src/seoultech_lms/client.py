@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import urljoin, urlsplit
 
 import httpx
 
@@ -26,6 +26,43 @@ class ReadOnlyViolation(RuntimeError):
     pass
 
 
+_BASE_PARTS = urlsplit(BASE_URL)
+_REDIRECT_STATUS_CODES = frozenset({301, 302, 303, 307, 308})
+_MAX_REDIRECTS = 5
+
+
+def _allowed_paths(method: str) -> frozenset[str]:
+    if method == "GET":
+        return ALLOWED_GET_PATHS
+    if method == "POST":
+        return ALLOWED_POST_PATHS
+    return frozenset()
+
+
+def _validated_url(method: str, target: str) -> str:
+    absolute_url = urljoin(f"{BASE_URL}/", target)
+    parsed = urlsplit(absolute_url)
+    same_origin = (
+        parsed.scheme == "https"
+        and parsed.hostname == _BASE_PARTS.hostname
+        and parsed.port in (None, 443)
+        and parsed.username is None
+        and parsed.password is None
+    )
+    if not same_origin:
+        raise ReadOnlyViolation(f"공식 e-Class 도메인이 아닌 요청을 차단했습니다: {absolute_url}")
+    if parsed.path not in _allowed_paths(method):
+        raise ReadOnlyViolation(
+            f"읽기 전용 allowlist에 없는 요청을 차단했습니다: {method} {parsed.path}"
+        )
+    return absolute_url
+
+
+def _is_login_url(target: str) -> bool:
+    parsed = urlsplit(target)
+    return parsed.hostname == _BASE_PARTS.hostname and "login" in parsed.path.casefold()
+
+
 class SeoultechLMSClient:
     """Read-only client for the verified e-Class HTML/AJAX endpoints."""
 
@@ -46,7 +83,7 @@ class SeoultechLMSClient:
         self._http = httpx.AsyncClient(
             base_url=BASE_URL,
             cookies=self._cookies(),
-            follow_redirects=True,
+            follow_redirects=False,
             timeout=30,
             headers={
                 "Accept-Language": "ko-KR,ko;q=0.9",
@@ -66,25 +103,41 @@ class SeoultechLMSClient:
 
     async def _request(self, method: str, path: str, **kwargs: object) -> httpx.Response:
         normalized_method = method.upper()
-        if normalized_method == "GET":
-            allowed = ALLOWED_GET_PATHS
-        elif normalized_method == "POST":
-            allowed = ALLOWED_POST_PATHS
-        else:
-            allowed = frozenset()
-        request_path = urlsplit(path).path
-        if request_path not in allowed:
-            raise ReadOnlyViolation(f"읽기 전용 allowlist에 없는 요청을 차단했습니다: {normalized_method} {request_path}")
+        target = _validated_url(normalized_method, path)
         if self._http is None:
             raise RuntimeError("SeoultechLMSClient는 'async with' 문 안에서 사용해야 합니다.")
-        response = await self._http.request(normalized_method, path, **kwargs)
-        if response.status_code in (401, 403) or "login_form" in str(response.url):
-            raise AuthenticationRequired(
-                "LMS 로그인 세션이 만료되었습니다. start_login 도구를 호출해 로그인 창을 열어주세요. "
-                "터미널에서는 'seoultech-lms login'을 사용할 수 있습니다."
-            )
-        response.raise_for_status()
-        return response
+        request_kwargs = dict(kwargs)
+        for redirect_count in range(_MAX_REDIRECTS + 1):
+            response = await self._http.request(normalized_method, target, **request_kwargs)
+            if response.status_code in (401, 403) or _is_login_url(str(response.url)):
+                raise AuthenticationRequired(
+                    "LMS 로그인 세션이 만료되었습니다. start_login 도구를 호출해 로그인 창을 열어주세요. "
+                    "터미널에서는 'seoultech-lms login'을 사용할 수 있습니다."
+                )
+            if response.status_code not in _REDIRECT_STATUS_CODES:
+                _validated_url(normalized_method, str(response.url))
+                response.raise_for_status()
+                return response
+
+            location = response.headers.get("location")
+            if not location:
+                raise RuntimeError("LMS가 목적지 없는 리다이렉트 응답을 반환했습니다.")
+            redirected_target = urljoin(str(response.url), location)
+            if _is_login_url(redirected_target):
+                raise AuthenticationRequired(
+                    "LMS 로그인 세션이 만료되었습니다. start_login 도구를 호출해 로그인 창을 열어주세요. "
+                    "터미널에서는 'seoultech-lms login'을 사용할 수 있습니다."
+                )
+            if response.status_code == 303 or (
+                response.status_code in (301, 302) and normalized_method == "POST"
+            ):
+                normalized_method = "GET"
+                for body_key in ("content", "data", "files", "json"):
+                    request_kwargs.pop(body_key, None)
+            target = _validated_url(normalized_method, redirected_target)
+            if redirect_count == _MAX_REDIRECTS:
+                break
+        raise RuntimeError("LMS 리다이렉트가 허용 횟수를 초과했습니다.")
 
     async def _enter_course(self, course_id: str) -> None:
         response = await self._request(

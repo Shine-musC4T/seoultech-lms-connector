@@ -24,6 +24,12 @@ class PackageReleaseTests(unittest.TestCase):
             media = source / "docs" / "media"
             media.mkdir(parents=True)
             (media / "large-demo.mp4").write_bytes(b"not for release")
+            build = source / "build" / "lib"
+            build.mkdir(parents=True)
+            (build / "generated.py").write_text("generated\n", encoding="utf-8")
+            egg_info = source / "src" / "example.egg-info"
+            egg_info.mkdir(parents=True)
+            (egg_info / "PKG-INFO").write_text("generated\n", encoding="utf-8")
             output = root / "release.zip"
 
             package_release.build_release(source, output)
@@ -32,6 +38,8 @@ class PackageReleaseTests(unittest.TestCase):
                 install = archive.getinfo("release/install.sh")
                 readme = archive.getinfo("release/README.md")
                 self.assertNotIn("release/docs/media/large-demo.mp4", archive.namelist())
+                self.assertNotIn("release/build/lib/generated.py", archive.namelist())
+                self.assertNotIn("release/src/example.egg-info/PKG-INFO", archive.namelist())
                 install_mode = (install.external_attr >> 16) & 0xFFFF
                 readme_mode = (readme.external_attr >> 16) & 0xFFFF
                 self.assertTrue(install_mode & stat.S_IXUSR)

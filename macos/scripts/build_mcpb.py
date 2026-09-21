@@ -61,7 +61,6 @@ def build_mcpb(
         "compatibility": {
             "claude_desktop": ">=1.0.0",
             "platforms": ["darwin"],
-            "runtimes": {"python": ">=3.12"},
         },
     }
 

@@ -6,9 +6,12 @@ import os
 import subprocess
 import sys
 from pathlib import Path
+from typing import Any
 from urllib.parse import urlparse
 
 from playwright.async_api import Browser, BrowserType, Error, async_playwright
+
+from .auth import ensure_private_directory, harden_auth_state, write_auth_state_secure
 
 
 LMS_URL = "https://eclass.seoultech.ac.kr/"
@@ -27,10 +30,26 @@ def _is_authenticated_lms_url(url: str) -> bool:
     parsed = urlparse(url)
     path = parsed.path.casefold()
     return (
-        parsed.hostname == "eclass.seoultech.ac.kr"
+        parsed.scheme == "https"
+        and parsed.hostname == "eclass.seoultech.ac.kr"
+        and parsed.port in (None, 443)
+        and parsed.username is None
+        and parsed.password is None
         and "/ilos/main/" in path
         and "login" not in path
     )
+
+
+def _persist_authenticated_state(
+    state_path: Path,
+    current_url: str,
+    state: dict[str, Any],
+) -> None:
+    if not _is_authenticated_lms_url(current_url):
+        raise RuntimeError(
+            "LMS 로그인이 확인되지 않았습니다. e-Class 메인 화면까지 이동한 뒤 다시 시도해주세요."
+        )
+    write_auth_state_secure(state_path, state)
 
 
 async def interactive_login(
@@ -40,7 +59,7 @@ async def interactive_login(
     timeout_seconds: int = LOGIN_TIMEOUT_SECONDS,
 ) -> None:
     """Open LMS; the user completes any authentication personally in Chromium."""
-    state_path.parent.mkdir(parents=True, exist_ok=True)
+    ensure_private_directory(state_path.parent)
     async with async_playwright() as playwright:
         browser = await _launch(playwright.chromium, headless=False)
         try:
@@ -59,7 +78,8 @@ async def interactive_login(
                         raise TimeoutError("LMS 로그인 대기 시간이 만료되었습니다.")
                     await page.wait_for_timeout(500)
                 await page.wait_for_timeout(1000)
-            await context.storage_state(path=str(state_path))
+            state = await context.storage_state()
+            _persist_authenticated_state(state_path, page.url, state)
         finally:
             await browser.close()
 
@@ -87,7 +107,7 @@ def _process_is_running(pid: int) -> bool:
 
 def start_login_browser(state_path: Path) -> dict[str, str]:
     """Start a detached login helper so MCP stdio remains available."""
-    state_path.parent.mkdir(parents=True, exist_ok=True)
+    ensure_private_directory(state_path.parent)
     pid_path = state_path.with_name("login_process.pid")
     try:
         existing_pid = int(pid_path.read_text(encoding="utf-8").strip())
@@ -130,13 +150,14 @@ async def session_is_valid(state_path: Path) -> bool:
     """Conservative check: an expired state must be renewed interactively."""
     if not state_path.is_file():
         return False
+    harden_auth_state(state_path)
     async with async_playwright() as playwright:
         browser = await _launch(playwright.chromium, headless=True)
         context = await browser.new_context(storage_state=str(state_path))
         page = await context.new_page()
         try:
             response = await page.goto(LMS_URL, wait_until="domcontentloaded")
-            valid = bool(response and response.ok and "login" not in page.url.lower())
+            valid = bool(response and response.ok and _is_authenticated_lms_url(page.url))
         finally:
             await browser.close()
     return valid

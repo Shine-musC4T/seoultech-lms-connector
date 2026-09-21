@@ -20,7 +20,7 @@ class SetupIntegrationsTests(unittest.TestCase):
             manifest_path = plugin_source / ".codex-plugin" / "plugin.json"
             manifest_path.parent.mkdir(parents=True)
             manifest_path.write_text(
-                json.dumps({"name": "seoultech-c4t", "version": "0.3.1"}),
+                json.dumps({"name": "seoultech-c4t", "version": "0.3.2"}),
                 encoding="utf-8",
             )
             (plugin_source / ".mcp.json").write_text(
@@ -76,7 +76,7 @@ class SetupIntegrationsTests(unittest.TestCase):
             marketplace = json.loads(marketplace_path.read_text(encoding="utf-8"))
             claude = json.loads(claude_path.read_text(encoding="utf-8"))
 
-            self.assertEqual(installed_manifest["version"], "0.3.1")
+            self.assertEqual(installed_manifest["version"], "0.3.2")
             self.assertEqual(
                 installed_mcp["mcpServers"]["seoultech_c4t"]["command"],
                 python_executable,
