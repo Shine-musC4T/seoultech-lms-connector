@@ -6,6 +6,7 @@ IFS=$'\n\t'
 SKIP_CODEX=0
 SKIP_CLAUDE=0
 SKIP_LOGIN=0
+CODEX_INSTALLED=0
 
 usage() {
     cat <<'EOF'
@@ -63,6 +64,25 @@ find_python_312() {
     return 1
 }
 
+find_codex_cli() {
+    local candidate
+    if command -v codex >/dev/null 2>&1; then
+        command -v codex
+        return 0
+    fi
+    for candidate in \
+        "/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex" \
+        "$HOME/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex" \
+        "/Applications/Codex.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex" \
+        "$HOME/Applications/Codex.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex"; do
+        if [[ -x "$candidate" ]]; then
+            printf '%s\n' "$candidate"
+            return 0
+        fi
+    done
+    return 1
+}
+
 if ! PYTHON_EXE="$(find_python_312)"; then
     cat >&2 <<'EOF'
 Python 3.12를 찾지 못했습니다.
@@ -105,14 +125,25 @@ if ((SKIP_CODEX)); then
     printf '[3/7] Codex 설정을 건너뜁니다.\n'
 else
     printf '[3/7] Codex 개인 플러그인과 마켓플레이스를 설정했습니다.\n'
-    if command -v codex >/dev/null 2>&1; then
-        if codex plugin add "seoultech-c4t@$marketplace_name"; then
-            printf '      Codex 플러그인 등록까지 완료했습니다.\n'
+    if codex_cli="$(find_codex_cli)"; then
+        plugin_id="seoultech-c4t@$marketplace_name"
+        if codex_install_json="$("$codex_cli" plugin add "$plugin_id" --json)" && \
+            printf '%s' "$codex_install_json" | "$VENV_PYTHON" -c '
+import json
+import sys
+from pathlib import Path
+
+result = json.load(sys.stdin)
+installed_path = result.get("installedPath")
+sys.exit(0 if result.get("pluginId") == sys.argv[1] and installed_path and Path(installed_path).is_dir() else 1)
+' "$plugin_id"; then
+            CODEX_INSTALLED=1
+            printf '      Codex 플러그인 설치를 완료했습니다.\n'
         else
-            printf '      Codex CLI 등록은 지원 버전 차이로 건너뜁니다. 앱을 재시작한 뒤 플러그인 목록에서 설치하세요.\n' >&2
+            printf '      Codex 플러그인 설치에 실패했습니다. 아래 수동 설치 안내를 확인하세요.\n' >&2
         fi
     else
-        printf '      Codex CLI가 PATH에 없어 앱 재시작 후 플러그인 목록에서 설치하면 됩니다.\n'
+        printf '      Codex CLI를 찾지 못해 플러그인 설치를 완료하지 못했습니다.\n' >&2
     fi
 fi
 
@@ -175,12 +206,21 @@ else
     "$VENV_PYTHON" -m seoultech_lms.cli login
 fi
 
-cat <<EOF
+if ((SKIP_CODEX || CODEX_INSTALLED)); then
+    printf '\n설치 완료.\n'
+else
+    printf '\n일부 설치만 완료: Codex 플러그인은 아직 설치되지 않았습니다.\n' >&2
+    printf 'Codex 앱의 플러그인 목록에서 Personal > seoultech_c4t를 찾아 + 버튼으로 설치하세요.\n' >&2
+fi
 
-설치 완료.
+cat <<EOF
 - 앱 데이터: $APP_SUPPORT_DIR
 - Python 실행 파일: $VENV_PYTHON
 - 로그인 세션은 이 Mac 안에만 저장됩니다.
 
 Codex와 Claude를 완전히 종료한 뒤 다시 실행하세요.
 EOF
+
+if ((!SKIP_CODEX && !CODEX_INSTALLED)); then
+    exit 2
+fi

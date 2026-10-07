@@ -165,11 +165,11 @@ brew install python@3.12
 
 ### macOS 설치 순서
 
-1. [최신 Release](https://github.com/Shine-musC4T/seoultech-lms-connector/releases/latest)의 **Assets**에서 `seoultech-lms-connector-macos-v0.3.2.zip`을 다운로드합니다. GitHub가 자동으로 만드는 `Source code` 파일이 아니라 이름에 `macos`가 들어간 설치용 ZIP을 선택하세요.
+1. [최신 Release](https://github.com/Shine-musC4T/seoultech-lms-connector/releases/latest)의 **Assets**에서 `seoultech-lms-connector-macos-v0.3.3.zip`을 다운로드합니다. GitHub가 자동으로 만드는 `Source code` 파일이 아니라 이름에 `macos`가 들어간 설치용 ZIP을 선택하세요.
 2. ZIP 파일을 더블클릭해 압축을 풉니다.
 3. `응용 프로그램 > 유틸리티 > 터미널`을 엽니다.
 4. 터미널에 `cd `를 입력하되 Enter는 아직 누르지 않습니다.
-5. 압축을 푼 `seoultech-lms-connector-macos-v0.3.2` 폴더를 터미널 창으로 끌어다 놓고 Enter를 누릅니다.
+5. 압축을 푼 `seoultech-lms-connector-macos-v0.3.3` 폴더를 터미널 창으로 끌어다 놓고 Enter를 누릅니다.
 6. 아래 명령을 실행합니다.
 
 ```bash
@@ -182,7 +182,9 @@ bash install.sh
 > [!TIP]
 > ZIP의 실행 권한이 유지된 환경에서는 `install.command`를 더블클릭해도 됩니다. macOS가 실행을 막거나 창이 바로 닫히면 터미널에서 `bash install.sh`를 실행하는 방법이 가장 확실합니다.
 
-macOS 설치 스크립트는 전용 가상환경을 `~/Library/Application Support/seoultech-lms-connector/venv`에 만들고 Codex·Claude 연동과 최초 로그인을 준비합니다. 더 자세한 macOS 설명과 원본 소스는 [`macos/README.md`](macos/README.md)와 [`macos/`](macos/)에서 확인할 수 있습니다.
+macOS 설치 스크립트는 전용 가상환경을 `~/Library/Application Support/seoultech-lms-connector/venv`에 만들고 Codex·Claude 연동과 최초 로그인을 준비합니다.
+
+Codex 플러그인 설치가 끝나지 않았다면 터미널에 `일부 설치만 완료`가 표시되고 오류 코드로 종료됩니다. 이때 Codex의 플러그인 목록에서 `Personal > seoultech_c4t`를 찾아 `+` 버튼으로 설치하세요. `설치 완료`가 표시되면 추가 설치는 필요하지 않습니다. 더 자세한 macOS 설명과 원본 소스는 [`macos/README.md`](macos/README.md)와 [`macos/`](macos/)에서 확인할 수 있습니다.
 
 > [!NOTE]
 > Claude Desktop용 선택적 `.mcpb` 확장은 설치 후 `~/Library/Application Support/seoultech-lms-connector/seoultech-c4t.mcpb`에 생성됩니다. 기본 MCP 연결은 확장 설치 전에도 유지됩니다.

@@ -54,13 +54,13 @@ brew install python@3.12
 
 ### 2. 배포 ZIP 압축 풀기
 
-`seoultech-lms-connector-macos-v0.3.2.zip`을 더블클릭해 압축을 풉니다. `Source code` ZIP이 아니라 이름에 `macos`가 들어간 설치용 ZIP을 사용하세요.
+`seoultech-lms-connector-macos-v0.3.3.zip`을 더블클릭해 압축을 풉니다. `Source code` ZIP이 아니라 이름에 `macos`가 들어간 설치용 ZIP을 사용하세요.
 
 ### 3. Terminal에서 설치
 
 1. `응용 프로그램 > 유틸리티 > 터미널`을 엽니다.
 2. 터미널에 `cd `를 입력하되 Enter는 아직 누르지 않습니다.
-3. 압축을 푼 `seoultech-lms-connector-macos-v0.3.2` 폴더를 터미널 창으로 끌어다 놓습니다.
+3. 압축을 푼 `seoultech-lms-connector-macos-v0.3.3` 폴더를 터미널 창으로 끌어다 놓습니다.
 4. Enter를 누릅니다.
 5. 아래 명령을 입력합니다.
 
@@ -73,7 +73,7 @@ bash install.sh
 - `~/Library/Application Support/seoultech-lms-connector/venv`에 전용 Python 환경 생성
 - 필요한 Python 패키지 설치
 - 로그인과 세션 점검에 필요한 Playwright Chromium 설치
-- Codex 개인 플러그인과 마켓플레이스 구성
+- Codex 개인 마켓플레이스 등록과 플러그인 설치
 - Claude Desktop 기본 로컬 MCP 구성
 - Claude Code가 설치돼 있으면 사용자 범위 MCP 등록
 - 최초 e-Class 로그인 진행
@@ -101,7 +101,7 @@ bash install.sh
 
 Codex와 Claude를 창만 닫지 말고 완전히 종료한 뒤 다시 실행합니다.
 
-- Codex CLI 등록이 자동으로 되지 않은 경우 플러그인 목록의 개인 마켓플레이스에서 `seoultech-c4t`를 설치합니다.
+- 설치 결과가 `일부 설치만 완료`라면 Codex의 플러그인 목록에서 `Personal > seoultech_c4t`를 찾아 `+` 버튼으로 설치합니다. 스크립트가 `설치 완료`라고 표시했다면 이 수동 단계는 필요하지 않습니다.
 - Claude Desktop에서는 채팅 입력창의 연결/도구 목록에서 `seoultech_c4t`를 확인합니다.
 
 요청 예시:
@@ -202,7 +202,7 @@ Python 3.12를 설치한 뒤 터미널을 완전히 닫았다가 다시 열고 `
 
 ### 플러그인이 보이지 않습니다
 
-Codex 또는 Claude를 완전히 종료하고 다시 실행합니다. Codex에서는 개인 마켓플레이스의 `seoultech-c4t` 설치 상태를 확인합니다.
+Codex 또는 Claude를 완전히 종료하고 다시 실행합니다. Codex에서는 개인 마켓플레이스의 `seoultech_c4t` 설치 상태를 확인합니다. 터미널에서는 `codex plugin list`의 `seoultech-c4t@personal` 항목이 `installed, enabled`인지 확인할 수 있습니다. 설치 스크립트가 `일부 설치만 완료`라고 표시했다면 플러그인 목록에서 `+` 버튼으로 설치해야 합니다.
 
 ### 로그인 창이 열리지 않습니다
 
@@ -226,7 +226,7 @@ python -m unittest discover -s tests -v
 ```bash
 python scripts/package_release.py \
   --source . \
-  --output ../seoultech-lms-connector-macos-v0.3.2.zip
+  --output ../seoultech-lms-connector-macos-v0.3.3.zip
 ```
 
 ## 라이선스 및 책임
