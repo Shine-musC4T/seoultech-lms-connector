@@ -168,8 +168,8 @@ brew install python@3.12
 1. [최신 Release](https://github.com/Shine-musC4T/seoultech-lms-connector/releases/latest)의 **Assets**에서 `seoultech-lms-connector-macos-v0.3.3.zip`을 다운로드합니다. GitHub가 자동으로 만드는 `Source code` 파일이 아니라 이름에 `macos`가 들어간 설치용 ZIP을 선택하세요.
 2. ZIP 파일을 더블클릭해 압축을 풉니다.
 3. `응용 프로그램 > 유틸리티 > 터미널`을 엽니다.
-4. 터미널에 `cd `를 입력하되 Enter는 아직 누르지 않습니다.
-5. 압축을 푼 `seoultech-lms-connector-macos-v0.3.3` 폴더를 터미널 창으로 끌어다 놓고 Enter를 누릅니다.
+4. 터미널에 `cd `를 입력하되 Enter는 아직 누르지 않습니다.(cd뒤에 공백 있습니다!)
+5. 압축을 푼 `seoultech-lms-connector-macos-v0.3.4` 폴더를 터미널 창으로 끌어다 놓고 Enter를 누릅니다.
 6. 아래 명령을 실행합니다.
 
 ```bash
@@ -270,7 +270,7 @@ seoultech-lms login
 macOS 터미널에서 직접 갱신하려면:
 
 ```bash
-"$HOME/Library/Application Support/seoultech-lms-connector/venv/bin/seoultech-lms" login
+seoultech-lms login
 ```
 
 ## 제거
